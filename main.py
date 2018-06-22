@@ -12,7 +12,8 @@ def get_rect(img):
 
 
 if __name__ == "__main__":
-    image_path = "dataset/ISIC_0000001.jpg"
+    images_path = ["dataset/ISIC_0000001.jpg", "dataset/ISIC_0000028.jpg", "dataset/ISIC_0000029.jpg", "dataset/pes1.png"]
+    image_path = images_path[3]
     # image_path = "dataset/pes1.png"
 
     image = cv2.imread(image_path)
@@ -21,15 +22,18 @@ if __name__ == "__main__":
     image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     segmentor = Segmentor(image_gray)
-    out = segmentor.max_flow_gray()
+    duration, out = segmentor.max_flow_gray()
 
     rect = get_rect(out)
     segmentor = Segmentor_grab(image)
-    out1 = segmentor.segment(rect)
+    duration1, out1 = segmentor.segment(rect)
 
     out1 = cv2.cvtColor(out1, cv2.COLOR_BGR2GRAY)
 
     compare_images(out, out1)
+
+    print("Time FM: {}".format(duration))
+    print("Time Grab: {}".format(duration1))
 
     cv2.imshow("Im1", image)
     cv2.imshow("Seg1", out)

@@ -2,6 +2,7 @@ import numpy as np
 import maxflow
 import copy
 from profilehooks import profile
+import time
 
 
 
@@ -13,13 +14,15 @@ class Segmentor:
 
     @profile
     def max_flow_gray(self):
+        start = time.time()
         height, width = self.img.shape
         graph = maxflow.Graph[int](height, width)
         nodes = graph.add_grid_nodes(self.img.shape)
         graph.add_grid_edges(nodes, 0), graph.add_grid_tedges(nodes, self.img, 255 - self.img)
         graph.maxflow()
         mask = graph.get_grid_segments(nodes)
-        return self.__plot(mask)
+        end = time.time()
+        return end - start, self.__plot(mask)
 
     def __plot(self, mask):
         height, width = self.img.shape
