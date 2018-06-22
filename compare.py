@@ -7,7 +7,7 @@ def compare_images(image1, image2):
     print("MSE: {}".format(_mse(image1, image2)))
     print("Consine: {}".format(_cosine(image1, image2)))
     print("Match Template: {}".format(_match_template(image1, image2)))
-    # print("Surf: {}".format(self._surf(image1, image2)))
+    print("Surf: {}".format(_surf(image1, image2)))
     print("Histogram: {}".format(_hist(image1, image2)))
 
 
@@ -42,10 +42,8 @@ def _surf(image1, image2):
     matcher = cv2.BFMatcher()
     matches = matcher.match(descriptor1[1], descriptor2[1])
     matches = sorted(matches, key=lambda val: val.distance)
-    for match in matches:
-        distance = match.distance
-        if distance < 0.2:
-            print(distance)
+    distances = [match.distance for match in matches if match.distance < 0.2]
+
 
     im_with_k2 = cv2.drawKeypoints(image1, keypoints1, np.array([]), color=255,
                                    flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
@@ -55,7 +53,8 @@ def _surf(image1, image2):
 
     cv2.imshow("k1", im_with_k1)
     cv2.imshow("k2", im_with_k2)
-    cv2.waitKey()
+
+    return len(distances)
 
 
 def _hist(image1, image2):
