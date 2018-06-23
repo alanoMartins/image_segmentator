@@ -4,11 +4,16 @@ import numpy as np
 
 
 def compare_images(image1, image2):
-    print("MSE: {}".format(_mse(image1, image2)))
-    print("Consine: {}".format(_cosine(image1, image2)))
-    print("Match Template: {}".format(_match_template(image1, image2)))
-    print("Surf: {}".format(_surf(image1, image2)))
-    print("Histogram: {}".format(_hist(image1, image2)))
+    stats = {
+        "mse": _mse(image1, image2),
+        "cosine": _cosine(image1, image2),
+        'template': _match_template(image1, image2)[0][0],
+        'histogram': _hist(image1, image2)
+
+    }
+    #print("Surf: {}".format(_surf(image1, image2)))
+
+    return stats
 
 
 def _mse(image1, image2):
