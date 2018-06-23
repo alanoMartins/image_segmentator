@@ -8,10 +8,12 @@ def compare_images(image1, image2):
         "mse": _mse(image1, image2),
         "cosine": _cosine(image1, image2),
         'template': _match_template(image1, image2)[0][0],
-        'histogram': _hist(image1, image2)
+        'histogram': _hist(image1, image2),
+        'correlation': _hist_correl(image1, image2),
+        'chi_sqr': _hist_chisqr(image1, image2),
+        'intersect': _hist_intersetct(image1, image2)
 
     }
-    #print("Surf: {}".format(_surf(image1, image2)))
 
     return stats
 
@@ -61,13 +63,26 @@ def _surf(image1, image2):
 
     return len(distances)
 
-
-def _hist(image1, image2):
-    # cv2.HISTCMP_CORREL
-    # cv2.HISTCMP_CHISQR
-    # cv2.HISTCMP_INTERSECT
-    # cv2.HISTCMP_BHATTACHARYYA
+def _hist_correl(image1, image2):
     hist1 = cv2.calcHist([image1], [0], None, [256], [0, 256])
     hist2 = cv2.calcHist([image2], [0], None, [256], [0, 256])
     res = cv2.compareHist(hist1, hist2, cv2.HISTCMP_CORREL)
+    return res
+
+def _hist_chisqr(image1, image2):
+    hist1 = cv2.calcHist([image1], [0], None, [256], [0, 256])
+    hist2 = cv2.calcHist([image2], [0], None, [256], [0, 256])
+    res = cv2.compareHist(hist1, hist2, cv2.HISTCMP_CHISQR)
+    return res
+
+def _hist_intersetct(image1, image2):
+    hist1 = cv2.calcHist([image1], [0], None, [256], [0, 256])
+    hist2 = cv2.calcHist([image2], [0], None, [256], [0, 256])
+    res = cv2.compareHist(hist1, hist2, cv2.HISTCMP_INTERSECT)
+    return res
+
+def _hist(image1, image2):
+    hist1 = cv2.calcHist([image1], [0], None, [256], [0, 256])
+    hist2 = cv2.calcHist([image2], [0], None, [256], [0, 256])
+    res = cv2.compareHist(hist1, hist2, cv2.HISTCMP_BHATTACHARYYA)
     return res

@@ -60,6 +60,9 @@ if __name__ == "__main__":
     cosine = list(map(lambda x: x['cosine'], set_stats))
     template = list(map(lambda x: x['template'], set_stats))
     histogram = list(map(lambda x: x['histogram'], set_stats))
+    correlation = list(map(lambda x: x['correlation'], set_stats))
+    chi_sqr = list(map(lambda x: x['chi_sqr'], set_stats))
+    intersect = list(map(lambda x: x['intersect'], set_stats))
 
     plt.title("Time Execution")
     plt.plot(time_fm, label="Graph cut")
@@ -82,6 +85,18 @@ if __name__ == "__main__":
     plt.subplot(224)
     plt.title("Template")
     plt.plot(template)
+
+
+    plt.tight_layout()
+    plt.show()
+
+    plt.subplot(221)
+    plt.title("Correlation")
+    plt.plot(correlation)
+
+    plt.subplot(222)
+    plt.title("Chi Square")
+    plt.plot(chi_sqr)
 
     plt.tight_layout()
     plt.show()

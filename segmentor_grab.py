@@ -12,6 +12,7 @@ class Segmentor_grab:
         self.img = copy.copy(img)
         self.mask_color = (1, 255, 255)
 
+    @profile
     def segment(self, rect):
         start = time.time()
         mask = np.zeros(self.img.shape[:2], np.uint8)
